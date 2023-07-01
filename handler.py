@@ -1,5 +1,5 @@
 import json
-from utils.search import create_search_index, delete_search_index, upload_documents_to_search_index
+from utils.search import create_search_index, delete_search_index, upload_documents_to_search_index, vector_search
 from utils.openai import generate_query_embedding
 
 try:
@@ -24,3 +24,7 @@ try:
 
 except Exception as e:
     print(f"Error: {e}")
+
+# test_embedding = generate_query_embedding("Bank Bonds")
+# results = vector_search(test_embedding)
+# print(results)

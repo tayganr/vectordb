@@ -21,6 +21,24 @@ RESET = "\033[0m"
 search_api_version = "2023-07-01-Preview"
 search_headers = {"Content-Type": "application/json", "api-key": search_api_key}
 
+def vector_search(embedding):
+    # Define the REST API endpoints
+    search_index_url = f"https://{search_service_name}.search.windows.net/indexes/{index_name}/docs/search?api-version={search_api_version}"
+
+    # Define the request body
+    request_body = {
+        "vector": {
+            "value": embedding,
+            "fields": "contentVector",
+            "k": 1
+        },
+        "select": "content, category"
+    }
+
+    # Query the search index
+    response = requests.post(search_index_url, headers=search_headers, json=request_body)
+    return response.json()
+
 def create_search_index():
     # Define the REST API endpoints
     create_index_url = f"https://{search_service_name}.search.windows.net/indexes/{index_name}?api-version={search_api_version}"
