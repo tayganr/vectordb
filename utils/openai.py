@@ -14,20 +14,19 @@ openai_deployment_name = config.get('openai', 'openai_deployment_name')
 openai_api_version = "2023-05-15"
 openai_headers = {"Content-Type": "application/json", "api-key": openai_api_key}
 
-def generate_query_embedding(document, snippet_number, total_snippets):
+def generate_query_embedding(input):
     # Define the REST API endpoint
     query_embedding_url = f"https://{openai_service_name}.openai.azure.com/openai/deployments/{openai_deployment_name}/embeddings?api-version={openai_api_version}"
 
     # Define the request body
     request_body = {
-        "input": document["content"]
+        "input": input
     }
 
     # Generate the query embedding
     try:
         response = requests.post(query_embedding_url, headers=openai_headers, json=request_body, timeout=10)
         response.raise_for_status()
-        print(f"Query embedding {snippet_number} of {total_snippets} generated successfully.")
         # Parse the response body as JSON
         query_embedding_response = response.json()
         # Get the embedding from the response

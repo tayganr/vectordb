@@ -62,7 +62,7 @@ def delete_search_index():
     else:
         print(f"Index {index_name} does not exist.")
 
-def upload_documents_to_search_index(documents, query_embeddings):
+def upload_documents_to_search_index(documents, embeddings):
     # Define the list of documents to upload
     upload_docs_url = f"https://{search_service_name}.search.windows.net/indexes/{index_name}/docs/index?api-version={search_api_version}"
     body = []
@@ -71,7 +71,7 @@ def upload_documents_to_search_index(documents, query_embeddings):
             "id": str(i+1),
             "content": documents[i]["content"],
             "category": documents[i]["category"],
-            "contentVector": query_embeddings[i]
+            "contentVector": embeddings[i]
         }
         body.append(document)
 
