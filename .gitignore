@@ -1,0 +1,14 @@
+# Ignore build artifacts
+build/
+dist/
+*.pyc
+
+# Ignore dependencies
+env/
+
+# Ignore IDE-specific files
+.vscode/
+
+# Ignore config files
+config.ini
+documents.json

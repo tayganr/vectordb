@@ -1,0 +1,9 @@
+[openai]
+api_key = YOUR_API_KEY_HERE
+openai_service_name = YOUR_OPENAI_SERVICE_NAME
+openai_deployment_name = YOUR_OPENAI_DEPLOYMENT_NAME
+
+[search]
+index_name = YOUR_INDEX_NAME
+search_service_name = YOUR_SEARCH_SERVICE_NAME
+search_api_key = YOUR_SEARCH_API_KEY
