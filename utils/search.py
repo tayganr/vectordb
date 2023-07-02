@@ -33,7 +33,7 @@ def query_search_index(embedding):
         "vector": {
             "value": embedding,
             "fields": "contentVector",
-            "k": 1
+            "k": 3
         },
         "select": "content, category"
     }
