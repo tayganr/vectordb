@@ -1,3 +1,4 @@
+import argparse
 from tabulate import tabulate
 from utils.search import query_search_index
 from utils.openai import generate_query_embedding
@@ -6,13 +7,20 @@ from utils.openai import generate_query_embedding
 ORANGE = "\033[38;5;208m"
 RESET = "\033[0m"
 
+# Parse command line arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("--query", help="the search query")
+parser.add_argument("-n", "--num-neighbors", type=int, default=3, help="the number of nearest neighbors to retrieve")
+args = parser.parse_args()
+
 # Define the search query
-query = "fit for purpose"
-print(f"Querying the search index for the nearest neighbors to the vector representation of '{ORANGE}{query}{RESET}'...\n")
+query = args.query
+number_of_nearest_neighbors = args.num_neighbors
+print(f"\nLooking for the {ORANGE}{number_of_nearest_neighbors}{RESET} nearest neighbors of '{ORANGE}{query}{RESET}' in the vector space...\n")
 
 # Generate the query embedding
 embedding = generate_query_embedding(query)
-results = query_search_index(embedding)["value"]
+results = query_search_index(embedding, number_of_nearest_neighbors)["value"]
 
 # Define a custom formatting function to truncate the text in the "content" column
 def truncate_title(text):

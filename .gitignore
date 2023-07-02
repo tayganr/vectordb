@@ -5,6 +5,7 @@ dist/
 
 # Ignore dependencies
 env/
+messages/
 
 # Ignore IDE-specific files
 .vscode/

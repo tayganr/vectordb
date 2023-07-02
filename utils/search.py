@@ -24,7 +24,7 @@ search_headers = {"Content-Type": "application/json", "api-key": search_api_key}
 base_url = f"https://{search_service_name}.search.windows.net"
 
 
-def query_search_index(embedding):
+def query_search_index(embedding, number_of_nearest_neighbors=1):
     # Define the REST API endpoints
     url = f"{base_url}/indexes/{index_name}/docs/search?api-version={search_api_version}"
 
@@ -33,7 +33,7 @@ def query_search_index(embedding):
         "vector": {
             "value": embedding,
             "fields": "contentVector",
-            "k": 3
+            "k": number_of_nearest_neighbors
         },
         "select": "content, category"
     }
