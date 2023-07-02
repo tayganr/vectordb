@@ -13,10 +13,11 @@ openai_deployment_name = config.get('openai', 'openai_deployment_name')
 # Define the variable values
 openai_api_version = "2023-05-15"
 openai_headers = {"Content-Type": "application/json", "api-key": openai_api_key}
+base_url = f"https://{openai_service_name}.openai.azure.com"
 
 def generate_query_embedding(input):
     # Define the REST API endpoint
-    query_embedding_url = f"https://{openai_service_name}.openai.azure.com/openai/deployments/{openai_deployment_name}/embeddings?api-version={openai_api_version}"
+    query_embedding_url = f"{base_url}/openai/deployments/{openai_deployment_name}/embeddings?api-version={openai_api_version}"
 
     # Define the request body
     request_body = {

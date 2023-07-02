@@ -15,15 +15,18 @@ search_api_key = config.get('search', 'search_api_key')
 RED = "\033[31m"
 BLUE = "\033[34m"
 GREEN = "\033[32m"
+ORANGE = "\033[38;5;208m"
 RESET = "\033[0m"
 
 # Define the variable values
 search_api_version = "2023-07-01-Preview"
 search_headers = {"Content-Type": "application/json", "api-key": search_api_key}
+base_url = f"https://{search_service_name}.search.windows.net"
 
-def vector_search(embedding):
+
+def query_search_index(embedding):
     # Define the REST API endpoints
-    search_index_url = f"https://{search_service_name}.search.windows.net/indexes/{index_name}/docs/search?api-version={search_api_version}"
+    url = f"{base_url}/indexes/{index_name}/docs/search?api-version={search_api_version}"
 
     # Define the request body
     request_body = {
@@ -36,12 +39,12 @@ def vector_search(embedding):
     }
 
     # Query the search index
-    response = requests.post(search_index_url, headers=search_headers, json=request_body)
+    response = requests.post(url, headers=search_headers, json=request_body)
     return response.json()
 
 def create_search_index():
     # Define the REST API endpoints
-    create_index_url = f"https://{search_service_name}.search.windows.net/indexes/{index_name}?api-version={search_api_version}"
+    url = f"{base_url}/indexes/{index_name}?api-version={search_api_version}"
 
     # Define the request body
     request_body = {
@@ -58,49 +61,36 @@ def create_search_index():
     }
 
     # Create the search index
-    response = requests.put(create_index_url, headers=search_headers, json=request_body)
+    response = requests.put(url, headers=search_headers, json=request_body)
     if response.status_code == 201:
-        print(f"Index {index_name} {BLUE}created{RESET} successfully.")
+        print(f"Index {ORANGE}{index_name}{RESET} {BLUE}created{RESET}.")
     else:
         print(f"Error creating index {index_name}: {response.text}")
 
 def delete_search_index():
     # Define the REST API endpoints
-    delete_index_url = f"https://{search_service_name}.search.windows.net/indexes/{index_name}?api-version={search_api_version}"
+    url = f"{base_url}/indexes/{index_name}?api-version={search_api_version}"
 
     # Delete the search index if it exists
-    response = requests.get(delete_index_url, headers=search_headers)
+    response = requests.get(url, headers=search_headers)
     if response.status_code == 200:
         # Index exists, delete it
-        response = requests.delete(delete_index_url, headers=search_headers)
+        print(f"Index {ORANGE}{index_name}{RESET} exists.")
+        response = requests.delete(url, headers=search_headers)
         if response.status_code == 204:
-            print(f"Index {index_name} {RED}deleted{RESET} successfully.")
+            print(f"Index {ORANGE}{index_name}{RESET} {RED}deleted{RESET}.")
         else:
             print(f"Error deleting index {index_name}: {response.text}")
     else:
-        print(f"Index {index_name} does not exist.")
+        print(f"Index {ORANGE}{index_name}{RESET} does not exist.")
 
-def upload_documents_to_search_index(documents, embeddings):
+def upload_documents_to_search_index(payload):
     # Define the list of documents to upload
-    upload_docs_url = f"https://{search_service_name}.search.windows.net/indexes/{index_name}/docs/index?api-version={search_api_version}"
-    body = []
-    for i in range(len(documents)):
-        document = {
-            "id": str(i+1),
-            "content": documents[i]["content"],
-            "category": documents[i]["category"],
-            "contentVector": embeddings[i]
-        }
-        body.append(document)
-
-    # Define the request body for the upload docs endpoint
-    upload_docs_body = {
-        "value": body
-    }
+    url = f"{base_url}/indexes/{index_name}/docs/index?api-version={search_api_version}"
 
     # Call the upload docs endpoint
     try:
-        response = requests.post(upload_docs_url, headers=search_headers, data=json.dumps(upload_docs_body), timeout=10)
+        response = requests.post(url, headers=search_headers, data=json.dumps(payload), timeout=10)
         response.raise_for_status()
         print(f"Documents {GREEN}uploaded{RESET} successfully.")
     except requests.exceptions.RequestException as e:
