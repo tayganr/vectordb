@@ -1,10 +1,14 @@
 import requests
 import json
 import configparser
+import os
+
+# Get the path to the config.ini file
+config_path = os.path.join(os.path.dirname(__file__), '..', 'settings', 'config.ini')
 
 # Read the config.ini file
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(config_path)
 
 # Get values from the config file
 index_name = config.get('search', 'index_name')

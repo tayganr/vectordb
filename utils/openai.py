@@ -1,9 +1,13 @@
 import requests
 import configparser
+import os
+
+# Get the path to the config.ini file
+config_path = os.path.join(os.path.dirname(__file__), '..', 'settings', 'config.ini')
 
 # Read the config.ini file
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(config_path)
 
 # Get values from the config file
 openai_api_key = config.get('openai', 'api_key')
