@@ -1,7 +1,8 @@
 [openai]
 api_key = YOUR_API_KEY_HERE
 openai_service_name = YOUR_OPENAI_SERVICE_NAME
-openai_deployment_name = YOUR_OPENAI_DEPLOYMENT_NAME
+embedding_deployment_name = YOUR_EMBEDDING_MODEL_DEPLOYMENT_NAME
+chat_deployment_name = YOUR_CHAT_MODEL_DEPLOYMENT_NAME
 
 [search]
 index_name = YOUR_INDEX_NAME
