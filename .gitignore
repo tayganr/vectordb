@@ -5,7 +5,6 @@ dist/
 
 # Ignore dependencies
 env/
-messages/
 
 # Ignore IDE-specific files
 .vscode/
@@ -13,3 +12,4 @@ messages/
 # Ignore config files
 config.ini
 documents.json
+fitness.json

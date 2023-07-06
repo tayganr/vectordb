@@ -1,0 +1,30 @@
+[
+	{
+		"role": "system",
+		"content": "SYSTEM_MESSAGE"
+	},
+	{
+		"role": "user",
+		"content": "EXAMPLE1"
+	},
+	{
+		"role": "assistant",
+		"content": "ANSWER1"
+	},
+	{
+		"role": "user",
+		"content": "EXAMPLE2"
+	},
+	{
+		"role": "assistant",
+		"content": "ANSWER2"
+	},
+	{
+		"role": "user",
+		"content": "EXAMPLE3"
+	},
+	{
+		"role": "assistant",
+		"content": "ANSWER3"
+	}
+]

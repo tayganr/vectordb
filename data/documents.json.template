@@ -1,0 +1,5 @@
+[
+    {"category": "Classification1", "content": "TEXT_SNIPPET1"},
+    {"category": "Classification2", "content": "TEXT_SNIPPET2"},
+    {"category": "Classification3", "content": "TEXT_SNIPPET3"}
+]
