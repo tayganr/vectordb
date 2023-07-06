@@ -52,12 +52,7 @@ def generate_chat_completion(messages):
     try:
         response = requests.post(url, headers=openai_headers, json=request_body, timeout=10)
         response.raise_for_status()
-        # Parse the response body as JSON
-        chat_response = response.json()
-
-        # Extract the chat response from the response
-        chat_text = chat_response["responses"][0]["text"]
-        return chat_text
+        return response.json()
     except Exception as e:
         print(f"Error generating chat response: {e}")
         return None

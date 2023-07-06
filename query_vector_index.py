@@ -9,7 +9,7 @@ RESET = "\033[0m"
 
 # Parse command line arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("--query", help="the search query")
+parser.add_argument("--query", help="the search query", required=True)
 parser.add_argument("-n", "--num-neighbors", type=int, default=3, help="the number of nearest neighbors to retrieve")
 args = parser.parse_args()
 
