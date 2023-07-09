@@ -1,5 +1,7 @@
 [openai]
-api_key = YOUR_API_KEY_HERE
+openai_api_key = YOUR_OPENAI_API_KEY_HERE
+openai_api_base = YOUR_OPENAI_BASE
+openai_api_version = YOUR_OPENAI_VERSION
 openai_service_name = YOUR_OPENAI_SERVICE_NAME
 embedding_deployment_name = YOUR_EMBEDDING_MODEL_DEPLOYMENT_NAME
 chat_deployment_name = YOUR_CHAT_MODEL_DEPLOYMENT_NAME

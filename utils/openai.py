@@ -10,7 +10,7 @@ config = configparser.ConfigParser()
 config.read(config_path)
 
 # Get values from the config file
-openai_api_key = config.get('openai', 'api_key')
+openai_api_key = config.get('openai', 'openai_api_key')
 openai_service_name = config.get('openai', 'openai_service_name')
 embedding_deployment_name = config.get('openai', 'embedding_deployment_name')
 chat_deployment_name = config.get('openai', 'chat_deployment_name')

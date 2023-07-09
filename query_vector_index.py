@@ -1,4 +1,5 @@
 import argparse
+import json
 from tabulate import tabulate
 from utils.search import query_search_index
 from utils.openai import generate_query_embedding
@@ -21,6 +22,7 @@ print(f"\nLooking for the {ORANGE}{number_of_nearest_neighbors}{RESET} nearest n
 # Generate the query embedding
 embedding = generate_query_embedding(query)
 results = query_search_index(embedding, number_of_nearest_neighbors)["value"]
+print(json.dumps(results, indent=4))
 
 # Define a custom formatting function to truncate the text in the "content" column
 def truncate_title(text):
