@@ -9,6 +9,7 @@ from utils.search import query_search_index
 from utils.openai import generate_query_embedding
 from chat import evaluate_snippet
 import pandas as pd
+import fitz
 
 # Configuration variables
 FILE_TYPE_PDF = "pdf"
@@ -65,23 +66,44 @@ def main():
             href = f'<a href="data:file/csv;base64,{b64}" download="chunks.csv">Download CSV</a>'
             st.markdown(href, unsafe_allow_html=True)
 
-            #  Render PDF
-            pdf_download_link = get_pdf_download_link(temp_pdf_file_path)
+            # Annotate PDF
+            annotate_pdf(temp_pdf_file_path, df)
 
-            with open(temp_pdf_file_path, "rb") as f:
+            #  Render PDF
+            with open("annotated.pdf", "rb") as f:
                 contents = f.read()
                 data_url = base64.b64encode(contents).decode("utf-8")
                 pdf_embed = f'<object type="application/pdf" data="data:application/pdf;base64,{data_url}" width="700" height="1000"></object>'
-
-            st.markdown(pdf_download_link, unsafe_allow_html=True)
             st.markdown(pdf_embed, unsafe_allow_html=True)
 
-def get_pdf_download_link(pdf_file_path):
-    with open(pdf_file_path, "rb") as f:
+def annotate_pdf(pdf_file_path, df):
+    # Open the PDF file
+    doc = fitz.open(pdf_file_path)
+
+    # Loop through each row in the DataFrame
+    for index, row in df.iterrows():
+        if row["is_special_commitment"]:
+            # Get the corresponding snippet of text
+            snippet = row["snippet"]
+            # Search for the snippet in the PDF
+            for page in doc:
+                text_instances = page.search_for(snippet)
+                # Highlight the matching text in yellow
+                for inst in text_instances:
+                    highlight = page.add_highlight_annot(inst)
+                    highlight.update()
+
+    # Save the annotated PDF file
+    doc.save("annotated.pdf")
+
+    # Add a download link for the annotated PDF
+    with open("annotated.pdf", "rb") as f:
         contents = f.read()
         data_url = base64.b64encode(contents).decode("utf-8")
-        href = f'<a href="data:application/pdf;base64,{data_url}" download="downloaded_file.pdf">Download PDF</a>'
-        return href
+        download_link = f'<a href="data:application/octet-stream;base64,{data_url}" download="annotated.pdf">Download Annotated PDF</a>'
+
+    # Display the download link in the Streamlit app
+    st.markdown(download_link, unsafe_allow_html=True)
 
 def process_chunk(i, chunk):
     # 1. OpenAI - Generate the query embedding
