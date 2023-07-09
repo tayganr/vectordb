@@ -28,12 +28,13 @@ SYSTEM_MSG_TEMPLATE = SystemMessagePromptTemplate.from_template(
     Given a legal document, identify if it contains any special commitments related to \"{commitment}\" and list them.
     A special commitment related to \"{commitment}\" has the following policy: {policy}.
     The user will always provide you a snippet from the legal document to review.
-    Review the snippet, evaluate against the commitment policy, your response is in JSON format.
-    The JSON schema is as below: {{
+    Review the snippet, evaluate against the commitment policy, your response is always in JSON format.
+    The JSON schema that must be followed is below: {{
         \"is_special_commitment\": \"TRUE OR FALSE\",
         \"confidence\": \"CONFIDENCE IN PREDICTION - HIGH, MEDIUM, OR LOW\",
         \"reason\": \"DESCRIPTION OF THE REASON FOR THE PREDICTION\"
     }}
+    Your JSON response must always include the three fields above (is_special_commitment, confidence, and reason).
     """)
 HUMAN_MSG_TEMPLATE = HumanMessagePromptTemplate.from_template("Snippet: {snippet}")
 AI_MSG_TEMPLATE = AIMessagePromptTemplate.from_template("""
@@ -80,5 +81,3 @@ def evaluate_snippet(commitment, policy, examples, snippet):
     messages = get_human_message(snippet, messages)
     response = chat(messages)
     return response.content
-
-
